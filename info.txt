@@ -1,0 +1,12 @@
+npx create-react-app my-app --template typescript - создание react ts приложения
+npm init -y - создание сервака
+tsc --init - иницилизация ts сервака
+npm i express - фреймворк сервака
+npm i --save-dev @types/express
+npm i cors - для разрешений запросов
+npm i --save-dev @types/cors
+npm i cookie-parser - для работы с куки
+npm i --save-dev @types/cookie-parser
+npm i dotenv - чтение env
+npm i mongodb - для работы с бд
+npm i mongoose = для подкление к бд
