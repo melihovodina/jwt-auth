@@ -9,4 +9,9 @@ npm i cookie-parser - для работы с куки
 npm i --save-dev @types/cookie-parser
 npm i dotenv - чтение env
 npm i mongodb - для работы с бд
-npm i mongoose = для подкление к бд
+npm i mongoose - для подкление к бд
+npm i jsonwebtoken - генерация jwt
+npm i bcrypt - хэширование
+npm i --save-dev @types/bcrypt
+npm i uuid - генерация рандомных строк
+npm i --save-dev @types/uuid
