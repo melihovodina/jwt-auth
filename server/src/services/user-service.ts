@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import mailService from "./mail-service";
 import tokenService from "./token-service";
 import UserDto from '../dtos/user-dto';
+import ApiError from "../exceptions/api-error";
 import { config } from 'dotenv';
 config({ path: '.env' });
 
@@ -13,7 +14,7 @@ class UserService {
     async registration(email: string, password: string) {
         const candidate = await userModel.findOne({ email });
         if (candidate) {
-            throw new Error("User already exists");
+            throw ApiError.badRequest("User already exists");
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = v4();
@@ -29,7 +30,7 @@ class UserService {
     async activate(activationLink: string) {
         const user = await userModel.findOne({ activationLink });
         if(!user) {
-            throw new Error("Invalid activation link");
+            throw ApiError.badRequest("Invalid activation link");
         }
         user.isActivated = true;
         await user.save();
