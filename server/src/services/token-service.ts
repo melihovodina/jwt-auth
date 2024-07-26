@@ -3,13 +3,13 @@ import tokenModel from "../models/token-model";
 import { config } from 'dotenv'
 config({ path: '.env' })
 
-const JWT_ACCESS_TOKEN = process.env.JWT_ACCESS_TOKEN || ''
-const JWT_REFRESH_TOKEN = process.env.JWT_REFRESH_TOKEN || ''
+const JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || ''
+const JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || ''
 
 class TokenService {
     generateTokens(payload: any) {
-        const accessToken = jwt.sign(payload, JWT_ACCESS_TOKEN, {expiresIn: '30m'});
-        const refreshToken = jwt.sign(payload, JWT_REFRESH_TOKEN, {expiresIn: '30d'}); 
+        const accessToken = jwt.sign(payload, JWT_ACCESS_KEY, {expiresIn: '30m'});
+        const refreshToken = jwt.sign(payload, JWT_REFRESH_KEY, {expiresIn: '30d'}); 
         return {
             accessToken,
             refreshToken

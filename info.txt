@@ -15,3 +15,5 @@ npm i bcrypt - хэширование
 npm i --save-dev @types/bcrypt
 npm i uuid - генерация рандомных строк
 npm i --save-dev @types/uuid
+npm i nodemailer - отправка писем
+npm i --save-dev @types/nodemailer
