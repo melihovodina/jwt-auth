@@ -25,6 +25,15 @@ class UserService {
 
         return { ...tokens, user: userDto }
     }
+
+    async activate(activationLink: string) {
+        const user = await userModel.findOne({ activationLink });
+        if(!user) {
+            throw new Error("Invalid activation link");
+        }
+        user.isActivated = true;
+        await user.save();
+    }
 }
 
 export default new UserService();

@@ -1,5 +1,9 @@
 import express from 'express';
 import userService from '../services/user-service';
+import { config } from 'dotenv';
+config({ path: '.env' });
+
+const CLIENT_URL = process.env.CLIENT_URL || "";
 
 class UserController {
     async registration(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -31,9 +35,11 @@ class UserController {
 
     async activate(req: express.Request, res: express.Response, next: express.NextFunction) {
         try {
-            
+            const activationLink = req.params.link;
+            await userService.activate(activationLink);
+            return res.redirect(CLIENT_URL)
         } catch (error) {
-            
+            console.log(error);
         }
     }
 
