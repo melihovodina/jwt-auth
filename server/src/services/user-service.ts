@@ -27,6 +27,27 @@ class UserService {
         return { ...tokens, user: userDto }
     }
 
+    async login(email: string, password: string) {
+        const user = await userModel.findOne({ email });
+        if(!user) {
+            throw ApiError.badRequest('User not found')
+        }
+        const isPassEqual = await bcrypt.compare(password, user.password);
+        if(!isPassEqual) {
+            throw ApiError.badRequest('Password is wrong')
+        }
+        const userDto = new UserDto(user);
+        const tokens = tokenService.generateTokens({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return { ...tokens, user: userDto }
+    }
+
+    async logout(refreshToken: string) {
+        const token = await tokenService.removeToken(refreshToken);
+        return token
+    }
+
     async activate(activationLink: string) {
         const user = await userModel.findOne({ activationLink });
         if(!user) {
@@ -34,6 +55,23 @@ class UserService {
         }
         user.isActivated = true;
         await user.save();
+    }
+
+    async refresh(refreshToken: string) {
+        if (!refreshToken) {
+            throw ApiError.unathorizedError();
+        }
+        const userData = tokenService.validateRefreshToken(refreshToken);
+        const tokenFromDb = await tokenService.findToken(refreshToken)
+        if (!userData || !tokenFromDb) {
+            throw ApiError.unathorizedError()
+        }
+        const user = await userModel.findById(userData.id)
+        const userDto = new UserDto(user);
+        const tokens = tokenService.generateTokens({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return { ...tokens, user: userDto }
     }
 }
 

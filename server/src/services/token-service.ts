@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import tokenModel from "../models/token-model";
+import { JwtPayload } from 'jsonwebtoken';
 import { config } from 'dotenv'
 config({ path: '.env' })
 
@@ -16,6 +17,24 @@ class TokenService {
         }
     }
 
+    validateAccessToken(token: string): JwtPayload | null {
+        try {
+            const userData = jwt.verify(token, JWT_ACCESS_KEY) as JwtPayload;
+            return userData;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    validateRefreshToken(token: string): JwtPayload | null {
+        try {
+            const userData = jwt.verify(token, JWT_REFRESH_KEY) as JwtPayload;
+            return userData;
+        } catch (error) {
+            return null;
+        }
+    }
+
     async saveToken(userId: string, refreshToken: string) {
         const tokenData = await tokenModel.findOne({ user: userId })
         if (tokenData) {
@@ -24,6 +43,16 @@ class TokenService {
         }
         const token = await tokenModel.create({ user: userId, refreshToken })
         return token;
+    }
+
+    async findToken(refreshToken: string) {
+        const tokenData = await tokenModel.findOne({refreshToken})
+        return tokenData;
+    }
+
+    async removeToken(refreshToken: string) {
+        const tokenData = await tokenModel.deleteOne({refreshToken})
+        return tokenData;
     }
 }
 

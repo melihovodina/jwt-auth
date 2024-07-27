@@ -17,3 +17,4 @@ npm i uuid - генерация рандомных строк
 npm i --save-dev @types/uuid
 npm i nodemailer - отправка писем
 npm i --save-dev @types/nodemailer
+npm i express-validation - валидация
