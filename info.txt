@@ -18,3 +18,8 @@ npm i --save-dev @types/uuid
 npm i nodemailer - отправка писем
 npm i --save-dev @types/nodemailer
 npm i express-validation - валидация
+npm i @reduxjs/toolkit - управление состояниями
+npm i react-redux - связь редукса и реакта
+npm i --save-dev @types/react-redux
+npm i axios - работа с апи
+npm i --save-dev @types/axios
